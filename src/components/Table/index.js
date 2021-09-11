@@ -1,13 +1,13 @@
 import React from 'react'
 
-import MTable from '@mui/material/Table';
-import MTableBody from '@mui/material/TableBody';
-import MTableCell from '@mui/material/TableCell';
-import MTableContainer from '@mui/material/TableContainer';
-import MTableHead from '@mui/material/TableHead';
-import MTableRow from '@mui/material/TableRow';
+import MTable from '@material-ui/core/Table';
+import MTableBody from '@material-ui/core/TableBody';
+import MTableCell from '@material-ui/core/TableCell';
+import MTableContainer from '@material-ui/core/TableContainer';
+import MTableHead from '@material-ui/core/TableHead';
+import MTableRow from '@material-ui/core/TableRow';
 
-import Paper from '@mui/material/Paper';
+import Paper from '@material-ui/core/Paper';
 
 class Table extends React.Component {
 
