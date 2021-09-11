@@ -1,10 +1,7 @@
 $white: #FFFFFF;
 
-.Header {
-    width: 1440px;
+.header {
     height: 72px;
-    left: 0px;
-    top: 0px;
 }
 
 .Logo { 
@@ -16,18 +13,16 @@ $white: #FFFFFF;
 }
 
 .Rectangle {
-    /* Rectangle 1 */
-    position: absolute;
-    width: 1440px;
+
+    /* Rectangle */
     height: 72px;
     left: 0px;
     top: 0px;
 
     /* Nitro White */
-
     background: $white;
-    /* Nitro Shadow */
 
+    /* Nitro Shadow */
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 }
 

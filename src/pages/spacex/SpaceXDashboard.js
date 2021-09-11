@@ -1,22 +1,20 @@
 import React from 'react';
 
-import SubHeader from '../SubHeader';
+import SubHeader from '../../components/SubHeader';
+import Table from '../../components/Table';
 
 import './SpaceXDashboard.scss'
 
 class SpaceXDashboard extends React.Component {
 
+    componentDidMount() {
+        console.log('componentDidMount')
+    }
 
     render() {
         return (
             <div className="container">
                 <SubHeader />
-                <h2>1</h2>
-                <h2>2</h2>
-                <h2>3</h2>
-                <h2>4</h2>
-                <h2>5</h2>
-                <h2>6</h2>
             </div>
         );
 

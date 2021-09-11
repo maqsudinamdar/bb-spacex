@@ -1,7 +1,7 @@
-import { combileReducers } from 'redux';
+import { combineReducers } from 'redux';
 
 import launchReducer from './launchReducer';
 
-export default combileReducers({
+export default combineReducers({
     launch: launchReducer
 })

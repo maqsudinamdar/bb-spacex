@@ -5,8 +5,8 @@ import history from '../history';
 
 import Header from './Header';
 
-import SpaceXDashboard from './spacex/SpaceXDashboard';
-import SpaceXShow from './spacex/SpaceXShow';
+import SpaceXDashboard from '../pages/spacex/SpaceXDashboard'
+import SpaceXShow from '../pages/spacex/SpaceXShow';
 
 
 const App = () => {
