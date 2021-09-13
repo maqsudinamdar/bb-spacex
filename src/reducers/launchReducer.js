@@ -10,7 +10,7 @@ export default (state = {}, action) => {
     switch (action.type){
 
         case LIST_LAUNCHES:
-            return { ...state, ... _.mapKeys(action.payload, 'flight_number') };
+            return { ...state, launches: _.mapKeys(action.payload, 'flight_number') };
 
         case GET_LAUNCH:
             return { ...state, [action.payload.id]: action.payload };

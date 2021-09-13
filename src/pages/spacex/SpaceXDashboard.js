@@ -28,7 +28,7 @@ class SpaceXDashboard extends React.Component {
 };
 
 const mapStateToProps = (state) => {
-    return { launches: Object.values(state.launches) };
+    return { launches: Object.values(state.launch)[0] };
 };
 
 export default connect(

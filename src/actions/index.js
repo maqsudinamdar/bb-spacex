@@ -8,7 +8,7 @@ import {
 import history from '../history';
 
 
-export const listLaunches = (offset = 0) => async dispatch => {
+export const listLaunches = (offset = 30) => async dispatch => {
 
     const response = await spacex.get('/launches', {
         params: {
