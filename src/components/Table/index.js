@@ -1,56 +1,107 @@
-import React from 'react'
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import MTable from "@material-ui/core/Table";
+import MTableBody from "@material-ui/core/TableBody";
+import MTableCell from "@material-ui/core/TableCell";
+import MTableContainer from "@material-ui/core/TableContainer";
+import MTableHead from "@material-ui/core/TableHead";
+import MTableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
-import MTable from '@material-ui/core/Table';
-import MTableBody from '@material-ui/core/TableBody';
-import MTableCell from '@material-ui/core/TableCell';
-import MTableContainer from '@material-ui/core/TableContainer';
-import MTableHead from '@material-ui/core/TableHead';
-import MTableRow from '@material-ui/core/TableRow';
+import './Table.scss';
 
-import Paper from '@material-ui/core/Paper';
+import { Link } from "react-router-dom";
 
-class Table extends React.Component {
+const useStyles = makeStyles({
+    
+    table: {
+        minWidth: 650,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
+        borderRadius: '6px',
+        width: '952px',
+        height: '676px',
+    },    
+    status: {
+        fontWeight: 'bold',
+        fontSize: '0.75rem',
+        color: 'white',
+        backgroundColor: 'grey',
+        borderRadius: 8,
+        padding: '3px 10px',
+        display: 'inline-block'
+    }
+      
+});
+
+const getProperty = (obj, prop) => {
+  var parts = prop.split(".");
+
+  if (Array.isArray(parts)) {
+    var last = parts.length > 1 ? parts.pop() : parts;
+    var l = parts.length,
+      i = 1,
+      current = parts[0];
+
+    while ((obj = obj[current]) && i < l) {
+      current = parts[i];
+      i++;
+    }
+
+    if (typeof obj === "object") {
+      return obj[last];
+    }
+    return obj;
+  } else {
+    throw "parts is not valid array";
+  }
+};
 
 
-    renderColumn = () => {
+export default function Table({ data, tableHeaders, tableBodies }) {
 
-        return (
+    const classes = useStyles();
+    
+    return (
+        <Paper className={classes.root}>
+        <MTableContainer className={classes.container}>
+            <MTable stickyHeader aria-label="Table sticky table">
             <MTableHead>
                 <MTableRow>
-                {this.props.data.columnNames.map((value) => {
-                    return <MTableCell align="left">{value}</MTableCell>
-                })}
+                {tableHeaders.map((header, index) => (
+                    <MTableCell key={index}>{header}</MTableCell>
+                ))}
                 </MTableRow>
             </MTableHead>
-        )
-    }
+            <MTableBody>
+                {data.map(data => (
+                <MTableRow key={data.id}>
+                    {tableBodies.map(body =>
 
-    renderBody = () => {
-        <MTableBody>
-            {this.props.data.rows.map( (row, index) => (
-                <MTableRow
-                    key={index}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                    {this.prop.data.rowKeys.map( item => (
-                        <MTableCell align="right">{row[item]}</MTableCell>
-                    ))}
+                        body !== 'status' ? 
+                        (
+                            <MTableCell key={body}>{getProperty(data, body)}</MTableCell>
+                        ) : 
+                        (
+                            <MTableCell key={body}>
+                                <Typography 
+                                    className={classes.status}
+                                    style={data.style}
+                                >
+                                    {data.status}
+                                </Typography>
+                            </MTableCell>
+                        )
+                    )}
                 </MTableRow>
-            ))}
-        </MTableBody>
-    }
-
-    render() {
-        return (
-            <MTableContainer component={Paper}>
-                <MTable sx={{ minWidth: 650 }} aria-label="simple table">
-                    { this.renderColumn() }
-                    { this.renderBody() }
-                </MTable>
-            </MTableContainer>
-        );
-    }
+                ))}
+            </MTableBody>
+            </MTable>
+        </MTableContainer>
+        </Paper>
+    );
 }
-    
-
-export default Table;
