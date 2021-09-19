@@ -57,50 +57,52 @@ export default function Table({ data, tableHeaders, tableBodies }) {
     const classes = useStyles();
     
     return (
-        <Paper className={classes.root}>
+        
         <MTableContainer className={classes.container}>
-            <MTable className="table" stickyHeader aria-label="Table sticky table">
-                <MTableHead className="table-header">
-                    <MTableRow>
-                    {tableHeaders.map((header, index) => (
-                        <MTableCell key={index}>{header}</MTableCell>
-                    ))}
-                    </MTableRow>
-                </MTableHead>
-                <MTableBody>
-                    {data.map(data => (
-                        <tr 
-                            key={data.id}
-                            className='table-header'
-                        >
-                            {tableBodies.map(body =>
+            <Paper className={classes.root}>
+                <MTable className="table" stickyHeader aria-label="Table sticky table">
+                    <MTableHead className="table-header">
+                        <MTableRow>
+                        {tableHeaders.map((header, index) => (
+                            <MTableCell key={index}>{header}</MTableCell>
+                        ))}
+                        </MTableRow>
+                    </MTableHead>
+                    <MTableBody>
+                        {data.map(data => (
+                            <tr 
+                                key={data.id}
+                                className='table-header'
+                            >
+                                {tableBodies.map(body =>
 
-                                body !== 'status' ? 
-                                (
-                                    <td 
-                                        key={body}
-                                        className="table-header-cell"
-                                    >
-                                        {getProperty(data, body)}
-                                    </td>
-                                    
-                                ) : 
-                                (
-                    
-                                    <MTableCell key={body}>
-                                        <Typography 
-                                            className={`status ${data.status}`}
+                                    body !== 'status' ? 
+                                    (
+                                        <td 
+                                            key={body}
+                                            className="table-header-cell"
                                         >
-                                            {data.status}
-                                        </Typography>
-                                    </MTableCell>
-                                )
-                            )}
-                        </tr>
-                    ))}
-                </MTableBody>
-            </MTable>
+                                            {getProperty(data, body)}
+                                        </td>
+                                        
+                                    ) : 
+                                    (
+                        
+                                        <MTableCell key={body}>
+                                            <Typography 
+                                                className={`status ${data.status}`}
+                                            >
+                                                {data.status}
+                                            </Typography>
+                                        </MTableCell>
+                                    )
+                                )}
+                            </tr>
+                        ))}
+                    </MTableBody>
+                </MTable>
+            </Paper>
         </MTableContainer>
-        </Paper>
+        
     );
 }
