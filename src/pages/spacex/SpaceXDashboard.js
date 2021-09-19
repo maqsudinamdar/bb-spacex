@@ -6,9 +6,40 @@ import { listLaunches } from '../../actions';
 import SubHeader from '../../components/SubHeader';
 import Table from '../../components/Table';
 
+
 import './SpaceXDashboard.scss'
 
 class SpaceXDashboard extends React.Component {
+
+    constructor() {
+		super();
+		this.state = {
+			selectValue: {}, 
+            filterData: [
+                {
+                  id: 'all',
+                  value: 'All Launches'    
+                },
+                {
+                  id: 'success',
+                  value: 'Successfull'    
+                },
+                {
+                  id: 'failed',
+                  value: 'Failed'    
+                },
+                {
+                  id: 'upcoming',
+                  value: 'Upcoming'    
+                },
+            ]
+		};
+	}
+
+    onFilterChange = (selectedValue) => {
+        console.log(selectedValue);
+        this.setState({ selectValue: selectedValue });
+    }
 
     componentDidMount() {
         this.props.listLaunches();
@@ -31,13 +62,10 @@ class SpaceXDashboard extends React.Component {
                 item['rocket_name'] = value.rocket.rocket_name;
                 if(value.upcoming) {
                     item['status'] = 'Upcoming';
-                    item['style'] = { backgroundColor: '#FEF3C7', color: '#FEF3C7' };
                 } else if ( value.launch_success ) {
                     item['status'] = 'Success';
-                    item['style'] = { backgroundColor: '#DEF7EC', color: '#DEF7EC' };
                 } else {
                     item['status'] = 'Failed';
-                    item['style'] = { backgroundColor: '#FDE2E1', color: '#FDE2E1' };
                 }
     
                 data.push(item);
@@ -48,7 +76,6 @@ class SpaceXDashboard extends React.Component {
     }
 
     render() {
-
 
         const tableHeaders = ["No", "Launched (UTC)", "Location", "Mission", "Orbit", "Launch Status", "Rocket"];
 
@@ -67,7 +94,11 @@ class SpaceXDashboard extends React.Component {
 
         return (
             <div className="container">
-                <SubHeader />
+                <SubHeader 
+                    selectValue={this.state.selectValue}
+                    filterData={this.state.filterData}
+                    onSelectChange={this.onFilterChange}
+                />
                 <Table
                     data={data}
                     tableHeaders={tableHeaders}

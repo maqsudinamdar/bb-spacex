@@ -25,17 +25,7 @@ const useStyles = makeStyles({
         borderRadius: '6px',
         width: '952px',
         height: '676px',
-    },    
-    status: {
-        fontWeight: 'bold',
-        fontSize: '0.75rem',
-        color: 'white',
-        backgroundColor: 'grey',
-        borderRadius: 8,
-        padding: '3px 10px',
-        display: 'inline-block'
-    }
-      
+    },          
 });
 
 const getProperty = (obj, prop) => {
@@ -69,37 +59,36 @@ export default function Table({ data, tableHeaders, tableBodies }) {
     return (
         <Paper className={classes.root}>
         <MTableContainer className={classes.container}>
-            <MTable stickyHeader aria-label="Table sticky table">
-            <MTableHead>
-                <MTableRow>
-                {tableHeaders.map((header, index) => (
-                    <MTableCell key={index}>{header}</MTableCell>
-                ))}
-                </MTableRow>
-            </MTableHead>
-            <MTableBody>
-                {data.map(data => (
-                <MTableRow key={data.id}>
-                    {tableBodies.map(body =>
+            <MTable className="table" stickyHeader aria-label="Table sticky table">
+                <MTableHead className="table-header">
+                    <MTableRow>
+                    {tableHeaders.map((header, index) => (
+                        <MTableCell key={index}>{header}</MTableCell>
+                    ))}
+                    </MTableRow>
+                </MTableHead>
+                <MTableBody>
+                    {data.map(data => (
+                    <MTableRow key={data.id}>
+                        {tableBodies.map(body =>
 
-                        body !== 'status' ? 
-                        (
-                            <MTableCell key={body}>{getProperty(data, body)}</MTableCell>
-                        ) : 
-                        (
-                            <MTableCell key={body}>
-                                <Typography 
-                                    className={classes.status}
-                                    style={data.style}
-                                >
-                                    {data.status}
-                                </Typography>
-                            </MTableCell>
-                        )
-                    )}
-                </MTableRow>
-                ))}
-            </MTableBody>
+                            body !== 'status' ? 
+                            (
+                                <MTableCell key={body}>{getProperty(data, body)}</MTableCell>
+                            ) : 
+                            (
+                                <MTableCell key={body}>
+                                    <Typography 
+                                        className={`status ${data.status}`}
+                                    >
+                                        {data.status}
+                                    </Typography>
+                                </MTableCell>
+                            )
+                        )}
+                    </MTableRow>
+                    ))}
+                </MTableBody>
             </MTable>
         </MTableContainer>
         </Paper>

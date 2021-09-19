@@ -1,8 +1,16 @@
 /* Sub Header */
 
-.SubHeader {
+.sub-header {
+    align-items: flex-start;
+    display: flex;
     width: 141px;
     height: 16px;
     left: 1056px;
     top: 120px;
+
+    float: right;
+    margin-right: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
 }
