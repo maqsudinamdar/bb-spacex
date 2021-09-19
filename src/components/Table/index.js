@@ -69,24 +69,34 @@ export default function Table({ data, tableHeaders, tableBodies }) {
                 </MTableHead>
                 <MTableBody>
                     {data.map(data => (
-                    <MTableRow key={data.id}>
-                        {tableBodies.map(body =>
+                        <tr 
+                            key={data.id}
+                            className='table-header'
+                        >
+                            {tableBodies.map(body =>
 
-                            body !== 'status' ? 
-                            (
-                                <MTableCell key={body}>{getProperty(data, body)}</MTableCell>
-                            ) : 
-                            (
-                                <MTableCell key={body}>
-                                    <Typography 
-                                        className={`status ${data.status}`}
+                                body !== 'status' ? 
+                                (
+                                    <td 
+                                        key={body}
+                                        className="table-header-cell"
                                     >
-                                        {data.status}
-                                    </Typography>
-                                </MTableCell>
-                            )
-                        )}
-                    </MTableRow>
+                                        {getProperty(data, body)}
+                                    </td>
+                                    
+                                ) : 
+                                (
+                    
+                                    <MTableCell key={body}>
+                                        <Typography 
+                                            className={`status ${data.status}`}
+                                        >
+                                            {data.status}
+                                        </Typography>
+                                    </MTableCell>
+                                )
+                            )}
+                        </tr>
                     ))}
                 </MTableBody>
             </MTable>
