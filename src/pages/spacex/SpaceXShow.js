@@ -91,14 +91,14 @@ class SpaceXShow extends React.Component {
 
     renderDetails() {
         return (
-            <React.Fragment>
+            <>
                 <p className="modal-description valign-text-middle-desc">
                 <span className="inter-normal-charade-14px">
                             {this.props.launch.details}
                         </span>
                         <span className="description-link">Wikipedia</span>
                 </p>
-            </React.Fragment>
+            </>
         )
     }
 
