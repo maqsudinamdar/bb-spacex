@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { listLaunches } from '../../actions';
+import { 
+    listLaunches, 
+    successLaunches,
+    upcomingLaunches 
+} from '../../actions';
 
 import SubHeader from '../../components/SubHeader';
 import Table from '../../components/Table';
@@ -37,8 +41,22 @@ class SpaceXDashboard extends React.Component {
 	}
 
     onFilterChange = (selectedValue) => {
-        console.log(selectedValue);
+
         this.setState({ selectValue: selectedValue });
+
+        if(selectedValue === 'all'){
+            this.props.listLaunches();
+        }
+        else if(selectedValue === 'success'){
+            
+            this.props.successLaunches();
+        }
+        else if(selectedValue === 'failed'){
+            this.props.successLaunches(null, false);
+        }
+        else if(selectedValue === 'upcoming'){
+            this.props.upcomingLaunches();
+        }
     }
 
     componentDidMount() {
@@ -112,10 +130,15 @@ class SpaceXDashboard extends React.Component {
 };
 
 const mapStateToProps = (state) => {
+    console.log(state);
     return { launches: Object.values(state.launch)[0] };
 };
 
 export default connect(
     mapStateToProps,
-    { listLaunches }
+    { 
+        listLaunches,
+        successLaunches,
+        upcomingLaunches
+    }
 )(SpaceXDashboard);

@@ -22,9 +22,8 @@ const Dropdown = ({ selectValue, filterData, onSelectChange }) => {
                 <select value={selectValue} onChange={handleChange}>
                     <option hidden>Select your option</option>
                     {filterData.map(data => {
-                        console.log(data)
                         return (
-                            <option key={data['id']} value={data['value']}>
+                            <option key={data['id']} value={data['id']}>
                                 {data['value']}
                             </option>
                         );

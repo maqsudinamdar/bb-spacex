@@ -1,14 +1,29 @@
+.status {
+
+    padding: 10px !important;
+    color: #333 !important;
+
+    font-weight: bold !important;
+    font-size: 0.75rem !important;
+    border-radius: 8px !important;
+    padding: 3px 10px !important;
+    display: inline-block !important;
+}
+
 .Upcoming { 
+
     background-color: #FEF3C7;
     color: #FEF3C7;
 }
 
 .Success {
+
     background-color: #DEF7EC; 
     color: #DEF7EC 
 }
 
 .Failed { 
+
     background-color: #FDE2E1; 
     color: #FDE2E1 
 }
