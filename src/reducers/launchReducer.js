@@ -13,7 +13,7 @@ export default (state = {}, action) => {
             return { ...state, launches: _.mapKeys(action.payload, 'flight_number') };
 
         case GET_LAUNCH:
-            return { ...state, [action.payload.id]: action.payload };
+            return { ...state,  ... _.mapKeys(action.payload, 'flight_number') };
 
         default:
             return state;
