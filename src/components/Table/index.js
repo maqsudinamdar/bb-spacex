@@ -52,15 +52,15 @@ const getProperty = (obj, prop) => {
 };
 
 
-export default function Table({ data, tableHeaders, tableBodies, onRowClick }) {
+export default function Table({ data, tableHeaders, tableBodies, onRowClick, loading }) {
 
     const classes = useStyles();
 
     return (
-        
+
         <MTableContainer className={classes.container}>
             <Paper className={classes.root}>
-                <MTable className="table" stickyHeader aria-label="Table sticky table">
+                <MTable className="table" stickyHeader  aria-label="spanning table">
                     <MTableHead className="table-header">
                         <MTableRow>
                             {tableHeaders.map((header, index) => (
@@ -69,37 +69,56 @@ export default function Table({ data, tableHeaders, tableBodies, onRowClick }) {
                         </MTableRow>
                     </MTableHead>
                     <MTableBody>
-                        {data.map(data => (
-                            <tr 
-                                key={data.id}
-                                className='table-header'
-                                onClick={(e) => onRowClick(data.id)}
-                            >
-                                {tableBodies.map(body =>
+                        {!loading &&
+                            (data && data.length > 0 ? 
+                                (
+                                    <>
+                                        {data.map(data => 
+                                            (
+                                                <tr 
+                                                    key={data.id}
+                                                    className='table-header'
+                                                    onClick={(e) => onRowClick(data.id)}
+                                                >
+                                                    {tableBodies.map(body =>
 
-                                    body !== 'status' ? 
-                                    (
-                                        <td 
-                                            key={body}
-                                            className="table-header-cell"
-                                        >
-                                            {getProperty(data, body)}
-                                        </td>
-                                        
-                                    ) : 
-                                    (
-                        
-                                        <MTableCell key={body}>
-                                            <Typography 
-                                                className={`status ${data.status}`}
-                                            >
-                                                {data.status}
+                                                        body !== 'status' ? 
+                                                        (
+                                                            <td 
+                                                                key={body}
+                                                                className="table-header-cell"
+                                                            >
+                                                                {getProperty(data, body)}
+                                                            </td>
+                                                            
+                                                        ) : 
+                                                        (
+                                            
+                                                            <MTableCell key={body}>
+                                                                <Typography 
+                                                                    className={`status ${data.status}`}
+                                                                >
+                                                                    {data.status}
+                                                                </Typography>
+                                                            </MTableCell>
+                                                        )
+                                                    )}
+                                                </tr>
+                                            )
+                                        )}
+                                    </>
+                                ) : 
+                                (
+                                    <MTableRow>
+                                        <MTableCell align="center" colSpan={tableHeaders.length}>
+                                            <Typography >
+                                                No result found for the specified filter
                                             </Typography>
                                         </MTableCell>
-                                    )
-                                )}
-                            </tr>
-                        ))}
+                                    </MTableRow>
+                                )
+                            )
+                        }
                     </MTableBody>
                 </MTable>
             </Paper>

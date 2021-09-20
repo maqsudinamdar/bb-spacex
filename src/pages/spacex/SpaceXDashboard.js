@@ -45,7 +45,8 @@ class SpaceXDashboard extends React.Component {
         ],
         activePage: 1,
         showModal: false,
-        clickedRowId: null
+        clickedRowId: null,
+        tableLoading: false
     };
 
 
@@ -58,12 +59,16 @@ class SpaceXDashboard extends React.Component {
 
         console.log('componentDidUpdate', this.state)
 
+
+
         let selectedValue = this.state.selectValue;
         let activePage= this.state.activePage;
 
         if (prevState.activePage !== this.state.activePage || prevState.selectValue !== this.state.selectValue) {
             let offset = (activePage-1) * 10;
-        
+
+            this.setState({ tableLoading: true });
+
             if(selectedValue.id === 'all'){
                 this.props.listLaunches(offset);
             }
@@ -76,6 +81,8 @@ class SpaceXDashboard extends React.Component {
             else if(selectedValue.id === 'upcoming'){
                 this.props.upcomingLaunches(offset);
             }
+
+            this.setState({ tableLoading: false})
         }
 
         if(prevState.showModal){
@@ -185,6 +192,7 @@ class SpaceXDashboard extends React.Component {
                     tableHeaders={tableHeaders}
                     tableBodies={tableBodies}
                     onRowClick={this.onRowClick}
+                    loading={this.state.tableLoading}
                 />
                 <Pagination
                     activePage={this.state.activePage}
