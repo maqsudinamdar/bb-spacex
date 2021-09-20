@@ -40,6 +40,7 @@
     display: flex;
     min-width: 238px;
     height: 75px;
+    border-bottom: 0 none;
 }
 
 .image-1{
@@ -84,6 +85,7 @@
     height: 21px;
     position: relative;
     min-width: 142px;
+    margin-left: -4px;
 }
 
 .mission-name {
@@ -141,6 +143,7 @@
 .inter-normal-charade-14px {
     font-weight: 400;
     font-style: normal;
+    margin-top: 15px;
 }
 
 .valign-text-middle-desc {

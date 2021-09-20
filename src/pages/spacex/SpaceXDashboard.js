@@ -7,10 +7,13 @@ import {
     upcomingLaunches 
 } from '../../actions';
 
+import { formatDate } from '../../utils/helper';
+
 import SubHeader from '../../components/SubHeader';
 import Table from '../../components/Table';
 import Pagination from '../../components/Pagination';
 
+import SpaceXModal from './SpaceXModal';
 
 import './SpaceXDashboard.scss'
 
@@ -40,7 +43,9 @@ class SpaceXDashboard extends React.Component {
               value: 'Upcoming'    
             },
         ],
-        activePage: 1
+        activePage: 1,
+        showModal: false,
+        clickedRowId: null
     };
 
 
@@ -50,6 +55,8 @@ class SpaceXDashboard extends React.Component {
 
 
     componentDidUpdate(prevProps, prevState) {
+
+        console.log('componentDidUpdate', this.state)
 
         let selectedValue = this.state.selectValue;
         let activePage= this.state.activePage;
@@ -69,6 +76,10 @@ class SpaceXDashboard extends React.Component {
             else if(selectedValue.id === 'upcoming'){
                 this.props.upcomingLaunches(offset);
             }
+        }
+
+        if(prevState.showModal){
+            this.setState({ showModal: false})
         }
     }
 
@@ -102,6 +113,15 @@ class SpaceXDashboard extends React.Component {
     }
 
 
+    onRowClick = (id) => {
+
+        this.setState({ showModal: true });
+        this.setState({ clickedRowId: id })
+
+        console.log('SpaceXDashboard onRowClick', id, this.state )
+    }
+
+
     prepareData(response) {
         
         let data = [];
@@ -112,7 +132,7 @@ class SpaceXDashboard extends React.Component {
                 let item = {};
     
                 item['id'] = value.flight_number;
-                item['launch_date_utc'] = value.launch_date_utc;
+                item['launch_date_utc'] = formatDate(value.launch_date_utc);
                 item['location'] = value.launch_site.site_name;
                 item['mission_name'] = value.mission_name;
                 item['orbit'] = value.rocket.second_stage.payloads[0].orbit;
@@ -147,9 +167,12 @@ class SpaceXDashboard extends React.Component {
             `rocket_name`
         ];
 
-
         let data = this.prepareData(this.props.launches);
-
+        console.log({'SpaceXDashboard render': {
+            state: this.state, 
+            props: this.props.launches,
+            data: data,
+        } })
         return (
             <div className="container">
                 <SubHeader 
@@ -161,6 +184,7 @@ class SpaceXDashboard extends React.Component {
                     data={data}
                     tableHeaders={tableHeaders}
                     tableBodies={tableBodies}
+                    onRowClick={this.onRowClick}
                 />
                 <Pagination
                     activePage={this.state.activePage}
@@ -168,6 +192,16 @@ class SpaceXDashboard extends React.Component {
                     totalCount={this.props.dataCount}
                     onChange={this.onPaginationChange}
                 />
+
+                { 
+                    this.state.showModal ? 
+                    <SpaceXModal 
+                        launch={this.props.launches.find(i => i.flight_number === this.state.clickedRowId)}
+                        // onHide={this.setState({ showModal: false })}
+                    /> : 
+                    null 
+                }
+                
             </div>
         );
 

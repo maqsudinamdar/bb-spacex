@@ -52,10 +52,10 @@ const getProperty = (obj, prop) => {
 };
 
 
-export default function Table({ data, tableHeaders, tableBodies }) {
+export default function Table({ data, tableHeaders, tableBodies, onRowClick }) {
 
     const classes = useStyles();
-    
+
     return (
         
         <MTableContainer className={classes.container}>
@@ -63,9 +63,9 @@ export default function Table({ data, tableHeaders, tableBodies }) {
                 <MTable className="table" stickyHeader aria-label="Table sticky table">
                     <MTableHead className="table-header">
                         <MTableRow>
-                        {tableHeaders.map((header, index) => (
-                            <MTableCell key={index}>{header}</MTableCell>
-                        ))}
+                            {tableHeaders.map((header, index) => (
+                                <MTableCell key={index}>{header}</MTableCell>
+                            ))}
                         </MTableRow>
                     </MTableHead>
                     <MTableBody>
@@ -73,6 +73,7 @@ export default function Table({ data, tableHeaders, tableBodies }) {
                             <tr 
                                 key={data.id}
                                 className='table-header'
+                                onClick={(e) => onRowClick(data.id)}
                             >
                                 {tableBodies.map(body =>
 
