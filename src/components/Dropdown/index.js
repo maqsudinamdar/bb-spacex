@@ -19,8 +19,12 @@ const Dropdown = ({ selectValue, filterData, onSelectChange }) => {
                 />
             </div>
             <div className="dropdown-text valign-text-middle">
-                <select value={selectValue} onChange={handleChange}>
-                    <option hidden>Select your option</option>
+                <select 
+                    value={selectValue['value']} 
+                    onChange={handleChange}
+                    style={{ backgroundColor: 'white', border: '0px'}}
+                >
+                    <option hidden>{selectValue['value']}</option>
                     {filterData.map(data => {
                         return (
                             <option key={data['id']} value={data['id']}>
