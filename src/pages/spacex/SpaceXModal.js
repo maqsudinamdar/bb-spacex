@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Modal from '../../components/Modal/index1';
+import Modal from '../../components/Modal';
 
 import { formatDate } from '../../utils/helper';
 

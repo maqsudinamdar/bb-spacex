@@ -6,7 +6,6 @@ import history from '../history';
 import Header from './Header';
 
 import SpaceXDashboard from '../pages/spacex/SpaceXDashboard'
-import SpaceXShow from '../pages/spacex/SpaceXShow';
 
 
 const App = () => {
@@ -18,7 +17,6 @@ const App = () => {
                     <Header />
                     <Switch>
                         <Route path="/" exact component={SpaceXDashboard} /> 
-                        <Route path="/spacex/:id" component={SpaceXShow} />
                     </Switch>                   
                 </div>
             </Router>
