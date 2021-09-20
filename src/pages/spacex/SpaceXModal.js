@@ -144,8 +144,6 @@ class SpaceXModal extends React.Component {
 
     render() {
         if(this.props.launch) {
-
-            console.log('SpaceXModal', this.props.launch)
             return (
                 <> 
                     <Modal 
@@ -154,7 +152,7 @@ class SpaceXModal extends React.Component {
                 </>
             )
         }
-        return 'Wait'
+        return null
     }
 
 }
