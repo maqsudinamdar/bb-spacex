@@ -2,6 +2,10 @@
   "name": "bb-spacex",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "7.x",
+    "npm": "15.x"
+  },
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
