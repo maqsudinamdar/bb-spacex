@@ -22,7 +22,7 @@ export const listLaunches = (offset = 0) => async dispatch => {
 
     dispatch({
         type: LIST_LAUNCHES,
-        payload: response.data
+        payload: response
     });
 }
 
@@ -39,13 +39,13 @@ export const successLaunches = (offset = 0, launch_success = true) => async disp
     if(launch_success) {
         dispatch({
             type: SUCCESS_LAUNCHES,
-            payload: response.data
+            payload: response
         });
     }
 
     dispatch({
         type: FAILED_LAUNCHES,
-        payload: response.data
+        payload: response
     });
 
 }
@@ -61,7 +61,7 @@ export const upcomingLaunches = (offset = 0) => async dispatch => {
 
     dispatch({
         type: UPCOMING_LAUNCHES,
-        payload: response.data
+        payload: response
     });
 }
 

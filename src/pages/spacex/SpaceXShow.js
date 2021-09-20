@@ -22,7 +22,6 @@ class SpaceXShow extends React.Component {
 
 
     renderModal () {
-        console.log('renderModal')
         return (
             <div className="modal-wrapper">
                 <div className="overlap-group1">
@@ -37,6 +36,7 @@ class SpaceXShow extends React.Component {
         )
     }
 
+    
     renderHeader() {
         return (
             <div className="modal-header">

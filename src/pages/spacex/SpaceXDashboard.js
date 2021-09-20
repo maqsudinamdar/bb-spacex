@@ -9,59 +9,98 @@ import {
 
 import SubHeader from '../../components/SubHeader';
 import Table from '../../components/Table';
+import Pagination from '../../components/Pagination';
 
 
 import './SpaceXDashboard.scss'
 
 class SpaceXDashboard extends React.Component {
 
-    constructor() {
-		super();
-		this.state = {
-			selectValue: {}, 
-            filterData: [
-                {
-                  id: 'all',
-                  value: 'All Launches'    
-                },
-                {
-                  id: 'success',
-                  value: 'Successfull'    
-                },
-                {
-                  id: 'failed',
-                  value: 'Failed'    
-                },
-                {
-                  id: 'upcoming',
-                  value: 'Upcoming'    
-                },
-            ]
-		};
-	}
 
-    onFilterChange = (selectedValue) => {
+    state = {
+        selectValue: {
+            id: 'all',
+            value: 'All Launches'    
+        }, 
+        filterData: [
+            {
+              id: 'all',
+              value: 'All Launches'    
+            },
+            {
+              id: 'success',
+              value: 'Successfull'    
+            },
+            {
+              id: 'failed',
+              value: 'Failed'    
+            },
+            {
+              id: 'upcoming',
+              value: 'Upcoming'    
+            },
+        ],
+        activePage: 1
+    };
 
-        this.setState({ selectValue: selectedValue });
-
-        if(selectedValue === 'all'){
-            this.props.listLaunches();
-        }
-        else if(selectedValue === 'success'){
-            
-            this.props.successLaunches();
-        }
-        else if(selectedValue === 'failed'){
-            this.props.successLaunches(null, false);
-        }
-        else if(selectedValue === 'upcoming'){
-            this.props.upcomingLaunches();
-        }
-    }
 
     componentDidMount() {
         this.props.listLaunches();
     }
+
+
+    componentDidUpdate(prevProps, prevState) {
+
+        let selectedValue = this.state.selectValue;
+        let activePage= this.state.activePage;
+
+        if (prevState.activePage !== this.state.activePage || prevState.selectValue !== this.state.selectValue) {
+            let offset = (activePage-1) * 10;
+        
+            if(selectedValue.id === 'all'){
+                this.props.listLaunches(offset);
+            }
+            else if(selectedValue.id === 'success'){                
+                this.props.successLaunches(offset);
+            }
+            else if(selectedValue.id === 'failed'){
+                this.props.successLaunches(offset, false);
+            }
+            else if(selectedValue.id === 'upcoming'){
+                this.props.upcomingLaunches(offset);
+            }
+        }
+    }
+
+
+    onDropdownChange = (selectedValue) => {
+
+ 
+        if(selectedValue === 'all'){
+            this.setState({ selectValue: this.state.filterData[0] });
+        }
+        else if(selectedValue === 'success'){
+            this.setState({ selectValue: this.state.filterData[1] });
+        }
+        else if(selectedValue === 'failed'){
+            this.setState({ selectValue: this.state.filterData[2] });
+        }
+        else if(selectedValue === 'upcoming'){
+            this.setState({ selectValue: this.state.filterData[3] });
+        }
+
+        this.setState({ activePage: 1 });
+
+    }
+
+
+    onPaginationChange = (pageNumber) => {
+
+        console.log('onPaginationChange', 'selectedValue: '+ this.state.selectValue, 'activePage:'+ this.state.activePage);
+
+        this.setState({activePage: pageNumber});
+    }
+
 
     prepareData(response) {
         
@@ -93,6 +132,7 @@ class SpaceXDashboard extends React.Component {
         return data;
     }
 
+
     render() {
 
         const tableHeaders = ["No", "Launched (UTC)", "Location", "Mission", "Orbit", "Launch Status", "Rocket"];
@@ -115,12 +155,18 @@ class SpaceXDashboard extends React.Component {
                 <SubHeader 
                     selectValue={this.state.selectValue}
                     filterData={this.state.filterData}
-                    onSelectChange={this.onFilterChange}
+                    onSelectChange={this.onDropdownChange}
                 />
                 <Table
                     data={data}
                     tableHeaders={tableHeaders}
                     tableBodies={tableBodies}
+                />
+                <Pagination
+                    activePage={this.state.activePage}
+                    countPerPage={10}
+                    totalCount={this.props.dataCount}
+                    onChange={this.onPaginationChange}
                 />
             </div>
         );
@@ -130,8 +176,12 @@ class SpaceXDashboard extends React.Component {
 };
 
 const mapStateToProps = (state) => {
-    console.log(state);
-    return { launches: Object.values(state.launch)[0] };
+
+    let dataCount = state.launch.dataCount
+    if(dataCount) {
+        dataCount = parseInt(dataCount);
+    }
+    return { launches: Object.values(state.launch.data), dataCount: dataCount };
 };
 
 export default connect(
