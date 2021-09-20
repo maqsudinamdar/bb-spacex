@@ -51,23 +51,48 @@ class SpaceXDashboard extends React.Component {
 
 
     componentDidMount() {
+        
+        console.log({
+            'componentDidMount': {
+                state: this.state, 
+                props: this.props.launches
+            } 
+        })
         this.props.listLaunches();
     }
 
+    componentWillUpdate(nextProps, nextState){
+        console.log({
+            'componentWillUpdate': {
+                state: this.state, 
+                props: this.props.launches,
+                nextProps,
+                nextState
+            } 
+        })
+        if(nextState.tableLoading) {
+            if(nextState.tableLoading === this.state.tableLoading){
+                this.setState({ tableLoading: false})
+            }
+        }
+        
+    }
 
     componentDidUpdate(prevProps, prevState) {
 
-        console.log('componentDidUpdate', this.state)
-
-
+        console.log({
+            'componentDidUpdate': {
+                state: this.state, 
+                props: this.props.launches,
+                prevState: prevState
+            } 
+        })
 
         let selectedValue = this.state.selectValue;
         let activePage= this.state.activePage;
 
         if (prevState.activePage !== this.state.activePage || prevState.selectValue !== this.state.selectValue) {
             let offset = (activePage-1) * 10;
-
-            this.setState({ tableLoading: true });
 
             if(selectedValue.id === 'all'){
                 this.props.listLaunches(offset);
@@ -82,7 +107,10 @@ class SpaceXDashboard extends React.Component {
                 this.props.upcomingLaunches(offset);
             }
 
-            this.setState({ tableLoading: false})
+            if(prevState.tableLoading) {
+                this.setState({ tableLoading: false})
+            }
+            
         }
 
         if(prevState.showModal){
@@ -92,7 +120,12 @@ class SpaceXDashboard extends React.Component {
 
 
     onDropdownChange = (selectedValue) => {
-
+        
+        console.log({'onPaginationChange': {
+            state: this.state, 
+            props: this.props.launches,
+            selectedValue: selectedValue,
+        } })
  
         if(selectedValue === 'all'){
             this.setState({ selectValue: this.state.filterData[0] });
@@ -108,15 +141,19 @@ class SpaceXDashboard extends React.Component {
         }
 
         this.setState({ activePage: 1 });
-
+        this.setState({ tableLoading: true });
     }
 
 
     onPaginationChange = (pageNumber) => {
 
-        console.log('onPaginationChange', 'selectedValue: '+ this.state.selectValue, 'activePage:'+ this.state.activePage);
-
+        console.log({'onPaginationChange': {
+            state: this.state, 
+            props: this.props.launches,
+            pageNumber: pageNumber,
+        } })
         this.setState({activePage: pageNumber});
+        this.setState({ tableLoading: true });
     }
 
 
@@ -125,7 +162,7 @@ class SpaceXDashboard extends React.Component {
         this.setState({ showModal: true });
         this.setState({ clickedRowId: id })
 
-        console.log('SpaceXDashboard onRowClick', id, this.state )
+        console.log('SpaceXDashboard onRowClick')
     }
 
 
@@ -175,7 +212,7 @@ class SpaceXDashboard extends React.Component {
         ];
 
         let data = this.prepareData(this.props.launches);
-        console.log({'SpaceXDashboard render': {
+        console.log({'render': {
             state: this.state, 
             props: this.props.launches,
             data: data,
@@ -205,7 +242,6 @@ class SpaceXDashboard extends React.Component {
                     this.state.showModal ? 
                     <SpaceXModal 
                         launch={this.props.launches.find(i => i.flight_number === this.state.clickedRowId)}
-                        // onHide={this.setState({ showModal: false })}
                     /> : 
                     null 
                 }
