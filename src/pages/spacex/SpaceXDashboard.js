@@ -51,25 +51,11 @@ class SpaceXDashboard extends React.Component {
 
 
     componentDidMount() {
-        
-        console.log({
-            'componentDidMount': {
-                state: this.state, 
-                props: this.props.launches
-            } 
-        })
         this.props.listLaunches();
     }
 
     componentWillUpdate(nextProps, nextState){
-        console.log({
-            'componentWillUpdate': {
-                state: this.state, 
-                props: this.props.launches,
-                nextProps,
-                nextState
-            } 
-        })
+
         if(nextState.tableLoading) {
             if(nextState.tableLoading === this.state.tableLoading){
                 this.setState({ tableLoading: false})
@@ -79,14 +65,6 @@ class SpaceXDashboard extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-
-        console.log({
-            'componentDidUpdate': {
-                state: this.state, 
-                props: this.props.launches,
-                prevState: prevState
-            } 
-        })
 
         let selectedValue = this.state.selectValue;
         let activePage= this.state.activePage;
@@ -120,12 +98,6 @@ class SpaceXDashboard extends React.Component {
 
 
     onDropdownChange = (selectedValue) => {
-        
-        console.log({'onPaginationChange': {
-            state: this.state, 
-            props: this.props.launches,
-            selectedValue: selectedValue,
-        } })
  
         if(selectedValue === 'all'){
             this.setState({ selectValue: this.state.filterData[0] });
@@ -147,11 +119,6 @@ class SpaceXDashboard extends React.Component {
 
     onPaginationChange = (pageNumber) => {
 
-        console.log({'onPaginationChange': {
-            state: this.state, 
-            props: this.props.launches,
-            pageNumber: pageNumber,
-        } })
         this.setState({activePage: pageNumber});
         this.setState({ tableLoading: true });
     }
@@ -161,8 +128,6 @@ class SpaceXDashboard extends React.Component {
 
         this.setState({ showModal: true });
         this.setState({ clickedRowId: id })
-
-        console.log('SpaceXDashboard onRowClick')
     }
 
 
@@ -199,24 +164,8 @@ class SpaceXDashboard extends React.Component {
 
     render() {
 
-        const tableHeaders = ["No", "Launched (UTC)", "Location", "Mission", "Orbit", "Launch Status", "Rocket"];
-
-        const tableBodies = [
-            `id`,
-            `launch_date_utc`,
-            `location`,
-            `mission_name`,
-            `orbit`,
-            `status`,
-            `rocket_name`
-        ];
-
         let data = this.prepareData(this.props.launches);
-        console.log({'render': {
-            state: this.state, 
-            props: this.props.launches,
-            data: data,
-        } })
+
         return (
             <div className="container">
                 <SubHeader 
@@ -226,8 +175,8 @@ class SpaceXDashboard extends React.Component {
                 />
                 <Table
                     data={data}
-                    tableHeaders={tableHeaders}
-                    tableBodies={tableBodies}
+                    tableHeaders={this.props.tableHeaders}
+                    tableBodies={this.props.tableBodies}
                     onRowClick={this.onRowClick}
                     loading={this.state.tableLoading}
                 />
@@ -252,6 +201,27 @@ class SpaceXDashboard extends React.Component {
     };
 
 };
+
+SpaceXDashboard.defaultProps = {
+    tableHeaders: [
+        "No", 
+        "Launched (UTC)", 
+        "Location", 
+        "Mission", 
+        "Orbit", 
+        "Launch Status", 
+        "Rocket"
+    ],
+    tableBodies: [
+        `id`,
+        `launch_date_utc`,
+        `location`,
+        `mission_name`,
+        `orbit`,
+        `status`,
+        `rocket_name`
+    ]
+}
 
 const mapStateToProps = (state) => {
 
