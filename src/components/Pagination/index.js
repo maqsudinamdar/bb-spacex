@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactPagination from 'react-js-pagination';
 
-import MPagination from '@mui/material/Pagination';
-import MStack from '@mui/material/Stack';
 
 const Pagination = ({
     activePage,
@@ -10,7 +8,7 @@ const Pagination = ({
     totalCount,
     onChange,
   }) => {
-    console.log('Pagination: ', activePage);
+      
     return (
       <>
         {totalCount > 0 && (
